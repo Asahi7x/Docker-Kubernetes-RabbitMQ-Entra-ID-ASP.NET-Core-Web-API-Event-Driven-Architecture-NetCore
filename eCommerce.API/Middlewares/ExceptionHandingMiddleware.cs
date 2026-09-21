@@ -1,0 +1,53 @@
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
+
+namespace eCommerce.API.Middlewares
+{
+    // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
+    public class ExceptionHandingMiddleware
+    {
+        private readonly RequestDelegate _next;
+        private readonly ILogger<ExceptionHandingMiddleware> _logger;
+
+        public ExceptionHandingMiddleware(RequestDelegate next, ILogger<ExceptionHandingMiddleware> logger)
+        {
+            _next = next;
+            _logger = logger;
+        }
+
+        public async Task Invoke(HttpContext httpContext)
+        {
+            try
+            {
+                await _next(httpContext);
+            }
+            catch (Exception ex)
+            {
+                // Capturamos el log de la exepcion con el tipo y el mensaje
+                _logger.LogError($"{ex.GetType().ToString()} : {ex.Message}");
+                
+                if(ex.InnerException is not null)
+                {
+                    _logger.LogError($"{ex.InnerException.GetType().ToString()} : {ex.InnerException.Message}");
+                }
+
+                httpContext.Response.StatusCode = 500;
+                await httpContext.Response.WriteAsJsonAsync(new
+                {
+                    Message = ex.Message,
+                    Type = ex.GetType().ToString(),
+                });
+            }
+        }
+    }
+
+    // Extension method used to add the middleware to the HTTP request pipeline.
+    public static class ExceptionHandingMiddlewareExtensions
+    {
+        public static IApplicationBuilder UseExceptionHandingMiddleware(this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<ExceptionHandingMiddleware>();
+        }
+    }
+}

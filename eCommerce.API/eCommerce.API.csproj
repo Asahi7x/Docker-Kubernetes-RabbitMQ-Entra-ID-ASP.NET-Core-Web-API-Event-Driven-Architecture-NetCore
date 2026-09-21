@@ -13,7 +13,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\eCommerce.Core\eCommerce.Core.csproj" />
     <ProjectReference Include="..\eCommerce.Infraestructure\eCommerce.Infraestructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Middlewares\" />
   </ItemGroup>
 
 </Project>
