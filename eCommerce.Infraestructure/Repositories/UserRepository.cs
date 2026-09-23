@@ -1,0 +1,28 @@
+﻿using eCommerce.Core.DTOs;
+using eCommerce.Core.Entities;
+using eCommerce.Core.RepositoryContracts;
+
+namespace eCommerce.Infraestructure.Repositories
+{
+    public class UserRepository : IUserRepository
+    {
+        public async Task<ApplicationUser?> AddUser(ApplicationUser user)
+        {
+            user.UserID = Guid.NewGuid();
+
+            return user;
+        }
+
+        public async Task<ApplicationUser?> GetUserByEmailAndPassword(string email, string password)
+        {
+            return new ApplicationUser()
+            {
+                UserID = Guid.NewGuid(),
+                Email = email,
+                Password = password,
+                PersonName = "Camila",
+                Gender = GenderOptions.Male.ToString(),
+            };
+        }
+    }
+}

@@ -6,6 +6,6 @@
         string? PersonName,
         string? Gender,
         string? Token,
-        bool Sucess
+        bool Success
         );
 }
