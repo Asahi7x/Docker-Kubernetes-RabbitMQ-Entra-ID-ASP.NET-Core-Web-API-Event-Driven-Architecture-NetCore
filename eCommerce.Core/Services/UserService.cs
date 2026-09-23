@@ -25,7 +25,7 @@ namespace eCommerce.Core.Services
 
             return new AuthenticationResponseDto(user.UserID, user.Email, user.PersonName, user.Gender, "Token", Success: true);
         }
-
+        
         public async Task<AuthenticationResponseDto?> Register(RegisterRequestDto registerRequestDto)
         {
             ApplicationUser user = new ApplicationUser()

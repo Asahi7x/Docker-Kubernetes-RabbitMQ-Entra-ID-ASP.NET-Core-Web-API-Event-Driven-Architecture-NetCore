@@ -8,7 +8,7 @@ namespace eCommerce.Infraestructure
     {
         public static IServiceCollection AddInfraestructure(this IServiceCollection services)
         {
-            services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             return services;
         }
     }
